@@ -1,0 +1,8 @@
+{
+  "name": "Magento | Open Source E-Commerce Store, Installed and Ready",
+  "short_name": "Magento Store",
+  "description": "Magento 2.4.9 with MariaDB and OpenSearch, installed before it goes live",
+  "category": "CMS",
+  "image": "https://raw.githubusercontent.com/devicons/devicon/master/icons/magento/magento-original.svg",
+  "card_desc": "Magento Open Source with the code compiled into the image, so deploys take minutes. Private admin path, generated password, cron and search included."
+}

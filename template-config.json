@@ -1,0 +1,180 @@
+{
+  "buckets": {},
+  "services": {
+    "d0bb687a-a446-45b5-a139-90e93d380133": {
+      "icon": "https://raw.githubusercontent.com/devicons/devicon/master/icons/magento/magento-original.svg",
+      "name": "Magento",
+      "build": {},
+      "deploy": {
+        "startCommand": null,
+        "healthcheckPath": "/health_check.php",
+        "healthcheckTimeout": 900,
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 10
+      },
+      "source": {
+        "image": "ghcr.io/two-workspaces/magento-store:IMAGE_SHA"
+      },
+      "variables": {
+        "PORT": {
+          "defaultValue": "8080",
+          "description": "Port the store listens on - leave as is",
+          "isOptional": false
+        },
+        "MAGENTO_BASE_URL": {
+          "defaultValue": "https://${{RAILWAY_PUBLIC_DOMAIN}}/",
+          "description": "Store address. Change it when you add a custom domain",
+          "isOptional": false
+        },
+        "MAGENTO_ADMIN_PASSWORD": {
+          "defaultValue": "A1${{secret(22)}}",
+          "description": "Password for the 'admin' login, used on first boot only",
+          "isOptional": false
+        },
+        "MAGENTO_ADMIN_EMAIL": {
+          "defaultValue": "admin@example.com",
+          "description": "Email for the 'admin' login, used on first boot only",
+          "isOptional": false
+        },
+        "MAGENTO_ADMIN_PATH": {
+          "defaultValue": "admin_${{secret(8, \"abcdefghijklmnopqrstuvwxyz0123456789\")}}",
+          "description": "Private path of the admin panel, used on first boot only",
+          "isOptional": false
+        },
+        "MAGENTO_ADMIN_URL": {
+          "defaultValue": "https://${{RAILWAY_PUBLIC_DOMAIN}}/${{MAGENTO_ADMIN_PATH}}",
+          "description": "Open this to sign in to the admin panel",
+          "isOptional": false
+        },
+        "DB_HOST": {
+          "defaultValue": "${{MariaDB.RAILWAY_PRIVATE_DOMAIN}}",
+          "description": "MariaDB host - leave as is",
+          "isOptional": false
+        },
+        "DB_NAME": {
+          "defaultValue": "${{MariaDB.MARIADB_DATABASE}}",
+          "description": "Database name - leave as is",
+          "isOptional": false
+        },
+        "DB_USER": {
+          "defaultValue": "${{MariaDB.MARIADB_USER}}",
+          "description": "Database user - leave as is",
+          "isOptional": false
+        },
+        "DB_PASSWORD": {
+          "defaultValue": "${{MariaDB.MARIADB_PASSWORD}}",
+          "description": "Database password - leave as is",
+          "isOptional": false
+        },
+        "OPENSEARCH_HOST": {
+          "defaultValue": "${{OpenSearch.RAILWAY_PRIVATE_DOMAIN}}",
+          "description": "OpenSearch host - leave as is",
+          "isOptional": false
+        }
+      },
+      "networking": {
+        "serviceDomains": {
+          "<hasDomain>": {}
+        }
+      },
+      "volumeMounts": {
+        "d0bb687a-a446-45b5-a139-90e93d380133": {
+          "mountPath": "/data"
+        }
+      }
+    },
+    "a48bf60a-7583-4e15-aa4e-eb6107a9a25e": {
+      "icon": "https://raw.githubusercontent.com/docker-library/docs/master/mariadb/logo.png",
+      "name": "MariaDB",
+      "build": {},
+      "deploy": {
+        "startCommand": "docker-entrypoint.sh mariadbd --datadir=/var/lib/mysql/data --innodb-buffer-pool-size=128M --performance-schema=off",
+        "healthcheckPath": null,
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 10
+      },
+      "source": {
+        "image": "mariadb:11.4.13"
+      },
+      "variables": {
+        "MARIADB_DATABASE": {
+          "defaultValue": "magento",
+          "description": "Database name",
+          "isOptional": false
+        },
+        "MARIADB_USER": {
+          "defaultValue": "magento",
+          "description": "Database user for Magento",
+          "isOptional": false
+        },
+        "MARIADB_PASSWORD": {
+          "defaultValue": "${{secret(32)}}",
+          "description": "Auto-generated database password",
+          "isOptional": false
+        },
+        "MARIADB_ROOT_PASSWORD": {
+          "defaultValue": "${{secret(32)}}",
+          "description": "Auto-generated root password",
+          "isOptional": false
+        },
+        "RAILWAY_DEPLOYMENT_DRAINING_SECONDS": {
+          "defaultValue": "60",
+          "description": "Time for MariaDB to shut down cleanly on redeploy",
+          "isOptional": false
+        }
+      },
+      "networking": {
+        "serviceDomains": {}
+      },
+      "volumeMounts": {
+        "8825e9e3-6a51-4328-8421-b41fe48f42e0": {
+          "mountPath": "/var/lib/mysql"
+        }
+      }
+    },
+    "1832716e-9873-4a94-a4c4-e94ff37bef76": {
+      "icon": "https://raw.githubusercontent.com/opensearch-project/opensearch-py/main/OpenSearch.svg",
+      "name": "OpenSearch",
+      "build": {},
+      "deploy": {
+        "startCommand": "/bin/sh -c \"mkdir -p /usr/share/opensearch/data/nodes-data && chown -R 1000:1000 /usr/share/opensearch/data && exec setpriv --reuid=1000 --regid=1000 --clear-groups ./opensearch-docker-entrypoint.sh -Ediscovery.type=single-node -Enetwork.host=:: -Epath.data=/usr/share/opensearch/data/nodes-data -Enode.store.allow_mmap=false -Ebootstrap.memory_lock=false\"",
+        "healthcheckPath": null,
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 10
+      },
+      "source": {
+        "image": "opensearchproject/opensearch:2.19.7"
+      },
+      "variables": {
+        "OPENSEARCH_JAVA_OPTS": {
+          "defaultValue": "-Xms256m -Xmx256m",
+          "description": "Search engine memory. Raise it for a large catalog",
+          "isOptional": false
+        },
+        "DISABLE_SECURITY_PLUGIN": {
+          "defaultValue": "true",
+          "description": "Reachable on the private network only - leave as is",
+          "isOptional": false
+        },
+        "DISABLE_INSTALL_DEMO_CONFIG": {
+          "defaultValue": "true",
+          "description": "Skips the demo certificates - leave as is",
+          "isOptional": false
+        },
+        "RAILWAY_RUN_UID": {
+          "defaultValue": "0",
+          "description": "Starts as root to fix volume ownership, then drops to the OpenSearch user",
+          "isOptional": false
+        }
+      },
+      "networking": {
+        "serviceDomains": {}
+      },
+      "volumeMounts": {
+        "4fd3bdb9-a7b0-4844-98d9-b8abc0e87c8b": {
+          "mountPath": "/usr/share/opensearch/data"
+        }
+      }
+    }
+  }
+}
