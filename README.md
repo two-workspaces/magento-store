@@ -35,9 +35,9 @@ Three services: **Magento** (Apache and PHP 8.4), **MariaDB**, and **OpenSearch*
 
 1. In the Magento service's Variables, open `MAGENTO_ADMIN_URL` and sign in as `admin` with `MAGENTO_ADMIN_PASSWORD`.
 2. Under Stores > Configuration, set your store name, currency and email addresses.
-3. Add products under Catalog. A new store has an empty catalog; the home page stays bare until you add content.
+3. Add products under Catalog. A new store has an empty catalog; the home page stays bare until you add content. A new product takes a couple of minutes to show up in search and become purchasable, because the indexers run on cron.
 
-**Memory.** Allow at least 4 GB in total for a real store. It starts on smaller plans, but it will be slow, and first boot can take several minutes.
+**Memory.** Allow at least 4 GB in total for a real store. It runs on smaller plans, tested with 0.5 GB per service and 200 products, but it will be slow, and first boot can take several minutes. Under 2 GB, cron tasks run one after another instead of in parallel, so they don't get killed for lack of memory.
 
 **What's not included.** This is built from Magento's public source. Adobe distributes some packages separately behind marketplace keys, so these are absent: admin two-factor sign-in, reCAPTCHA, Page Builder and multi-source inventory. The admin is protected by a generated password, a private path and Magento's login lockout. To add them, get [access keys](https://commercemarketplace.adobe.com/customer/accessKeys/) and build your own image from this template's repository.
 
