@@ -135,15 +135,18 @@
     "1832716e-9873-4a94-a4c4-e94ff37bef76": {
       "icon": "https://raw.githubusercontent.com/opensearch-project/opensearch-py/main/OpenSearch.svg",
       "name": "OpenSearch",
-      "build": {},
+      "build": {
+        "dockerfilePath": "Dockerfile"
+      },
       "deploy": {
-        "startCommand": "/bin/sh -c \"mkdir -p /usr/share/opensearch/data/nodes-data && chown -R 1000:1000 /usr/share/opensearch/data && exec setpriv --reuid=1000 --regid=1000 --clear-groups ./opensearch-docker-entrypoint.sh -Ediscovery.type=single-node -Enetwork.host=:: -Epath.data=/usr/share/opensearch/data/nodes-data -Enode.store.allow_mmap=false -Ebootstrap.memory_lock=false\"",
+        "startCommand": null,
         "healthcheckPath": null,
         "restartPolicyType": "ON_FAILURE",
         "restartPolicyMaxRetries": 10
       },
       "source": {
-        "image": "opensearchproject/opensearch:2.19.7"
+        "repo": "https://github.com/two-workspaces/magento-store",
+        "rootDirectory": "/opensearch"
       },
       "variables": {
         "OPENSEARCH_JAVA_OPTS": {
@@ -159,11 +162,6 @@
         "DISABLE_INSTALL_DEMO_CONFIG": {
           "defaultValue": "true",
           "description": "Skips the demo certificates - leave as is",
-          "isOptional": false
-        },
-        "RAILWAY_RUN_UID": {
-          "defaultValue": "0",
-          "description": "Starts as root to fix volume ownership, then drops to the OpenSearch user",
           "isOptional": false
         }
       },

@@ -4,5 +4,6 @@
   "description": "Magento 2.4.9 with MariaDB and OpenSearch, installed before it goes live",
   "category": "CMS",
   "image": "https://raw.githubusercontent.com/devicons/devicon/master/icons/magento/magento-original.svg",
-  "card_desc": "Magento Open Source with the code compiled into the image, so deploys take minutes. Private admin path, generated password, cron and search included."
+  "card_desc": "Magento Open Source with the code compiled into the image, so deploys take minutes. Private admin path, generated password, cron and search included.",
+  "id": "49c99f3a-7fe6-48fc-92d9-7b496ef9cd43"
 }
