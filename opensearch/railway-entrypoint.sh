@@ -4,6 +4,8 @@ set -euo pipefail
 # rest) take OpenSearch from about 0.4 GB to about 0.75 GB, past the Free plan's limit.
 # Removed here, since Railway's flattening brings back what an image layer deleted.
 rm -rf /usr/share/opensearch/plugins/*
+# Each glibc malloc arena keeps its own freed memory; the default is 8 per CPU.
+export MALLOC_ARENA_MAX=2
 # A subdirectory, since the volume's root holds lost+found.
 data=/usr/share/opensearch/data/nodes-data
 mkdir -p "$data"

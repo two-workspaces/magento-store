@@ -67,6 +67,15 @@ fi
 # So a custom domain only needs the variable changed.
 db -e "update core_config_data set value='$base_url' where path in ('web/unsecure/base_url','web/secure/base_url')"
 
+# Each cron group is normally its own process of about 180 MB, started together every
+# minute. Under 2 GB that gets them killed mid-job, leaving indexers stuck, so run them in
+# turn there. Stored on every boot so that moving to a bigger plan undoes it.
+sep=1; [ "$mem" -lt $((2 << 30)) ] && sep=0
+for g in default index consumers analytics; do
+  db -e "insert into core_config_data (scope,scope_id,path,value) values ('default',0,'system/cron/$g/use_separate_process','$sep') on duplicate key update value='$sep'"
+done
+magento cache:clean config >/dev/null
+
 # Indexers, email and scheduled tasks all run from Magento's cron.
 ( while sleep 60; do magento cron:run >/dev/null 2>&1 || true; done ) &
 
