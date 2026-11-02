@@ -7,7 +7,7 @@
       "build": {},
       "deploy": {
         "startCommand": null,
-        "healthcheckPath": "/health_check.php",
+        "healthcheckPath": "/railway-health.php",
         "healthcheckTimeout": 900,
         "restartPolicyType": "ON_FAILURE",
         "restartPolicyMaxRetries": 10

@@ -44,6 +44,7 @@ RUN set -eux; \
 	ln -sfT /dev/stdout /var/log/apache2/error.log; \
 	sed -i 's/^ServerTokens OS/ServerTokens Prod/; s/^ServerSignature On/ServerSignature Off/' /etc/apache2/conf-available/security.conf
 COPY railway.conf /etc/apache2/sites-available/000-default.conf
+COPY railway-health.php /var/www/magento/pub/railway-health.php
 
 COPY --chmod=0755 railway-entrypoint.sh /railway-entrypoint.sh
 ENTRYPOINT ["/railway-entrypoint.sh"]
