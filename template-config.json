@@ -13,7 +13,7 @@
         "restartPolicyMaxRetries": 10
       },
       "source": {
-        "image": "ghcr.io/two-workspaces/magento-store:bdcc7cb"
+        "image": "ghcr.io/two-workspaces/magento-store:9ef8128"
       },
       "variables": {
         "PORT": {
