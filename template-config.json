@@ -13,7 +13,7 @@
         "restartPolicyMaxRetries": 10
       },
       "source": {
-        "image": "ghcr.io/two-workspaces/magento-store:e8b1576"
+        "image": "ghcr.io/two-workspaces/magento-store:bdcc7cb"
       },
       "variables": {
         "PORT": {
@@ -152,16 +152,6 @@
         "OPENSEARCH_JAVA_OPTS": {
           "defaultValue": "-Xms256m -Xmx256m",
           "description": "Search engine memory. Raise it for a large catalog",
-          "isOptional": false
-        },
-        "DISABLE_SECURITY_PLUGIN": {
-          "defaultValue": "true",
-          "description": "Reachable on the private network only - leave as is",
-          "isOptional": false
-        },
-        "DISABLE_INSTALL_DEMO_CONFIG": {
-          "defaultValue": "true",
-          "description": "Skips the demo certificates - leave as is",
           "isOptional": false
         }
       },
