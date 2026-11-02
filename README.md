@@ -39,7 +39,7 @@ Three services: **Magento** (Apache and PHP 8.4), **MariaDB**, and **OpenSearch*
 
 **Memory.** Allow at least 4 GB in total for a real store. It starts on smaller plans, but it will be slow, and first boot can take several minutes.
 
-**Two-factor sign-in is off.** Magento emails the setup link, and a new store has no mail server, so leaving it on would lock you out. Once SMTP works, enable `Magento_TwoFactorAuth` by rebuilding the image from this template's repository.
+**What's not included.** This is built from Magento's public source. Adobe distributes some packages separately behind marketplace keys, so these are absent: admin two-factor sign-in, reCAPTCHA, Page Builder and multi-source inventory. The admin is protected by a generated password, a private path and Magento's login lockout. To add them, get [access keys](https://commercemarketplace.adobe.com/customer/accessKeys/) and build your own image from this template's repository.
 
 **Language.** Static assets are built for `en_US` in the Luma, Blank and admin themes. Another language or a custom theme means adding it to the Dockerfile and building your own image.
 

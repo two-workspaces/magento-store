@@ -26,9 +26,6 @@ RUN set -eux; \
 	rm -rf .git dev/tests; \
 	COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --no-interaction --no-progress --optimize-autoloader; \
 	php -d memory_limit=-1 bin/magento module:enable --all; \
-	# Two-factor sends its setup link by email, and a new store has no mail server, so it
-	# would lock the admin out. The README says how to turn it back on.
-	php -d memory_limit=-1 bin/magento module:disable Magento_AdminAdobeImsTwoFactorAuth Magento_TwoFactorAuth; \
 	php /tmp/build-config.php add; \
 	php -d memory_limit=-1 bin/magento setup:di:compile; \
 	php -d memory_limit=-1 bin/magento setup:static-content:deploy -f en_US --jobs 4 \
